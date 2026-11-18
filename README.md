@@ -7,7 +7,7 @@
 [![OpenIDEA Plugin API](https://img.shields.io/badge/OpenIDEA%20Plugin%20API-1.8-1e88e5)](https://openidea.sh/zh/plugins)
 [![Rust](https://img.shields.io/badge/Rust-1.85%2B-orange?logo=rust)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.2.1-green)](plugin.toml)
+[![Version](https://img.shields.io/badge/version-0.2.2-green)](plugin.toml)
 
 在 Java 类中右键 **Copy JSON**，立即得到一份带类型默认值、遵循 Jackson 注解的 JSON 骨架。
 
@@ -83,14 +83,14 @@
 git clone https://github.com/Wu-Daozi/openidea-pojo-to-json.git
 cd openidea-pojo-to-json
 openidea-plugin build
-openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.1.oiplugin
+openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.2.oiplugin
 ```
 
 然后在 OpenIDEA 中：
 
 1. 打开 **设置 › 插件**。
 2. 点击齿轮菜单，选择 **从插件包文件安装…**。
-3. 选择 `dist/wudaozi.pojo-to-json-0.2.1.oiplugin`。
+3. 选择 `dist/wudaozi.pojo-to-json-0.2.2.oiplugin`。
 4. 按提示授予 `editor.read`、`clipboard`、`project.read`。
 
 未签名的插件包在安装时会显示安全提示；正式分发前请使用发布者密钥签名。
@@ -230,7 +230,7 @@ public class User {
 | `@JsonProperty("x")` | 覆盖 JSON 键名 |
 | `@JsonIgnore` | 跳过字段 |
 | `@JsonNaming(SnakeCaseStrategy.class)` | 类级命名策略；子类会作用于继承字段 |
-| `@JsonIgnoreProperties({"a","b"})` | 类级排除字段；按原始属性名匹配，子类同样作用于继承字段 |
+| `@JsonIgnoreProperties({"a","b"})` / `@JsonIgnoreProperties("a")` / `value = "a"` | 类级排除字段；按原始属性名匹配，子类同样作用于继承字段 |
 | `@JsonProperty(access = WRITE_ONLY)` | 不输出 |
 | `@JsonProperty(access = READ_ONLY)` | 输出 |
 | `@JsonIgnoreType` | 该类型字段从 JSON 中省略 |
@@ -304,7 +304,7 @@ timezoneOffsetMinutes = 480   # UTC+8，Asia/Shanghai
 | 插件 ID | `wudaozi.pojo-to-json` |
 | OpenIDEA | 0.1.45+（Plugin API 1.8） |
 | 插件 API | `engines.openidea = "^1.8"` |
-| 插件版本 | 0.2.1 |
+| 插件版本 | 0.2.2 |
 | 目标 | `wasm32-wasip2` |
 | Rust | 1.85+，edition 2024 |
 | 许可证 | Apache-2.0 |
@@ -366,7 +366,7 @@ openidea-plugin link
 cargo test                                   # 单元测试 + MockHost 集成测试
 openidea-plugin build                        # 构建 dist/plugin.wasm 并执行 check
 openidea-plugin check                        # 校验插件包
-openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.1.oiplugin
+openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.2.oiplugin
 ```
 
 ## 项目结构
@@ -410,14 +410,14 @@ cargo test
 
 ```sh
 # 未签名，适合本地测试
-openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.1.oiplugin
+openidea-plugin pack --out dist/wudaozi.pojo-to-json-0.2.2.oiplugin
 
 # 签名分发
 openidea-plugin keygen publisher.key
 openidea-plugin pack \
   --key publisher.key \
   --publisher wudaozi \
-  --out dist/wudaozi.pojo-to-json-0.2.1.oiplugin
+  --out dist/wudaozi.pojo-to-json-0.2.2.oiplugin
 ```
 
 签名前请确认插件 id 前缀与发布者 id 一致（当前为 `wudaozi.`）。
@@ -446,6 +446,7 @@ openidea-plugin check
 
 | 版本 | 内容 |
 | --- | --- |
+| `0.2.2` | 修复 `@JsonIgnoreProperties("name")` / `value = "name"` 单字符串形式 |
 | `0.2.1` | 修复继承字段的命名/忽略顺序；外部类型使用各自文件的 import；`@JsonIgnoreType` 改为省略属性；JDK 类型短路；候选校验与预览计数修复 |
 | `0.2.0` | import/package 感知解析；继承字段；Jackson 注解；可配置输出；复制前预览 |
 | `0.1.0` | 首个版本：右键复制 Java POJO 的 JSON 骨架 |

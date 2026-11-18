@@ -998,7 +998,10 @@ fn element_strings(value: &ElementValue) -> Vec<String> {
         ElementValue::Expr(Expr::ArrayInit(array)) => {
             array.elements.iter().filter_map(expr_string).collect()
         }
-        ElementValue::Expr(_) => Vec::new(),
+        // Java annotations allow the braces of a single-element array to be
+        // omitted: @JsonIgnoreProperties("name") and
+        // @JsonIgnoreProperties(value = "name") both mean one property.
+        ElementValue::Expr(expr) => expr_string(expr).into_iter().collect(),
         ElementValue::Annotation(_) => Vec::new(),
     }
 }
@@ -1670,6 +1673,20 @@ public class A {
             Some("com.b.UploadFileVo")
         );
         assert_eq!(hints.qualified("Other").as_deref(), Some("com.use.Other"));
+    }
+
+    #[test]
+    fn applies_single_string_ignore_properties() {
+        for annotation in [
+            "@JsonIgnoreProperties(\"secret\")",
+            "@JsonIgnoreProperties(value = \"secret\")",
+        ] {
+            let source = format!(
+                "{annotation}\npublic class Single {{\n    private String secret;\n    private String keep;\n}}\n"
+            );
+            let generated = generate(&source, caret(&source, "public class Single")).unwrap();
+            assert_eq!(generated.json, "{\n  \"keep\": \"\"\n}", "{annotation}");
+        }
     }
 
     #[test]

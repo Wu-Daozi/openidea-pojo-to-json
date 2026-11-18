@@ -574,6 +574,32 @@ mod tests {
     }
 
     #[test]
+    fn command_honours_single_string_ignore_properties() {
+        let host = MockHost::install().with_capabilities(&["editor.read", "clipboard"]);
+        let source = "import com.fasterxml.jackson.annotation.JsonIgnoreProperties;\n@JsonIgnoreProperties(\"internalNote\")\npublic class Request {\n    private String internalNote;\n    private String name;\n}\n";
+        host.open_editor("/project/src/Request.java", "java", source, &[(0, 0, 0, 0)]);
+
+        PojoToJson
+            .run_command("copy-json", &host.invocation(), None)
+            .unwrap();
+
+        assert_eq!(host.clipboard().as_deref(), Some("{\n  \"name\": \"\"\n}"));
+    }
+
+    #[test]
+    fn command_honours_explicit_value_single_string_ignore_properties() {
+        let host = MockHost::install().with_capabilities(&["editor.read", "clipboard"]);
+        let source = "import com.fasterxml.jackson.annotation.JsonIgnoreProperties;\n@JsonIgnoreProperties(value = \"internalNote\")\npublic class Request {\n    private String internalNote;\n    private String name;\n}\n";
+        host.open_editor("/project/src/Request.java", "java", source, &[(0, 0, 0, 0)]);
+
+        PojoToJson
+            .run_command("copy-json", &host.invocation(), None)
+            .unwrap();
+
+        assert_eq!(host.clipboard().as_deref(), Some("{\n  \"name\": \"\"\n}"));
+    }
+
+    #[test]
     fn reports_a_denied_clipboard_permission() {
         let host = MockHost::install().with_capabilities(&["editor.read"]);
         let error = run(
