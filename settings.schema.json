@@ -1,0 +1,68 @@
+{
+  "properties": {
+    "namingStrategy": {
+      "type": "string",
+      "title": "Field naming strategy",
+      "description": "Applied to fields without an explicit @JsonProperty. 'field' keeps the Java name.",
+      "enum": ["field", "snake_case", "kebab-case", "camelCase", "PascalCase", "UPPER_SNAKE"],
+      "default": "field"
+    },
+    "includeStatic": {
+      "type": "boolean",
+      "title": "Include static fields",
+      "description": "serialVersionUID is always skipped.",
+      "default": false
+    },
+    "includeTransient": {
+      "type": "boolean",
+      "title": "Include transient fields",
+      "default": true
+    },
+    "includeInherited": {
+      "type": "boolean",
+      "title": "Include inherited fields",
+      "description": "Parent fields are emitted before the class's own fields.",
+      "default": true
+    },
+    "scalarCollectionSample": {
+      "type": "boolean",
+      "title": "Sample scalar collection elements",
+      "description": "When enabled, List<String> becomes [\"\"] instead of [].",
+      "default": false
+    },
+    "unknownType": {
+      "type": "string",
+      "title": "Unresolved type representation",
+      "description": "How types that cannot be resolved from the project are written.",
+      "enum": ["null", "object"],
+      "default": "null"
+    },
+    "maxDepth": {
+      "type": "integer",
+      "title": "Maximum nesting depth",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 10
+    },
+    "indent": {
+      "type": "string",
+      "title": "JSON indentation",
+      "enum": ["2", "4"],
+      "default": "2"
+    },
+    "previewBeforeCopy": {
+      "type": "boolean",
+      "title": "Preview before copying",
+      "description": "Open a multi-line editor with the generated JSON before writing the clipboard.",
+      "default": false
+    },
+    "timezoneOffsetMinutes": {
+      "type": "integer",
+      "title": "Timezone offset (minutes from UTC)",
+      "description": "Used for current date/time defaults. Default 480 = UTC+8 (Asia/Shanghai); set to your local offset.",
+      "default": 480,
+      "minimum": -720,
+      "maximum": 840
+    }
+  }
+}

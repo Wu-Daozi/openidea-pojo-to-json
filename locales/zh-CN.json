@@ -1,0 +1,19 @@
+{
+  "Field naming strategy": "字段命名策略",
+  "Applied to fields without an explicit @JsonProperty. 'field' keeps the Java name.": "作用于没有显式 @JsonProperty 的字段；field 表示保留 Java 字段名。",
+  "Include static fields": "包含 static 字段",
+  "serialVersionUID is always skipped.": "serialVersionUID 始终跳过。",
+  "Include transient fields": "包含 transient 字段",
+  "Include inherited fields": "包含继承字段",
+  "Parent fields are emitted before the class's own fields.": "父类字段排在当前类字段之前。",
+  "Sample scalar collection elements": "为标量集合生成示例元素",
+  "When enabled, List<String> becomes [\"\"] instead of [].": "开启后 List<String> 输出 [\"\"]，否则输出 []。",
+  "Unresolved type representation": "无法解析类型的表示",
+  "How types that cannot be resolved from the project are written.": "项目内无法解析的类型如何输出。",
+  "Maximum nesting depth": "最大嵌套深度",
+  "JSON indentation": "JSON 缩进",
+  "Preview before copying": "复制前预览",
+  "Open a multi-line editor with the generated JSON before writing the clipboard.": "写剪贴板前先用多行编辑器预览生成的 JSON。",
+  "Timezone offset (minutes from UTC)": "时区偏移（相对 UTC 的分钟数）",
+  "Used for current date/time defaults. Default 480 = UTC+8 (Asia/Shanghai); set to your local offset.": "用于当前日期时间默认值。默认 480（UTC+8，Asia/Shanghai）；请改成你所在时区。"
+}
