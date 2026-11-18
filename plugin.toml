@@ -8,6 +8,7 @@ categories = ["tools"]
 engines.openidea = "^1.8"
 wasm = "dist/plugin.wasm"
 icon = "icon.svg"
+homepage = "https://github.com/Wu-Daozi/openidea-pojo-to-json"
 change-notes = """0.2.1 — inherit Jackson naming/ignores correctly, per-file import resolution, omit @JsonIgnoreType fields, faster JDK-type handling and safer candidate selection.
 0.2.0 — import-aware type resolution, inherited fields, Jackson naming/ignore annotations, configurable output and preview.
 0.1.0 — first release: copy a Java POJO as a JSON skeleton."""
